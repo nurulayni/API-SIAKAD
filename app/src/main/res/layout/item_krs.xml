@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
     >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
+        android:clickable="true"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
 
