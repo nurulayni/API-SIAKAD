@@ -15,7 +15,7 @@ class KrsAdapter(private var krsList: List<Krs>, private val onItemClickListener
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val namaKrs: TextView = itemView.findViewById(R.id.krs)
+//        val namaKrs: TextView = itemView.findViewById(R.id.krs)
     }
 
     override fun onBindViewHolder(holder: KrsAdapter.ViewHolder, position: Int) {

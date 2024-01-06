@@ -1,6 +1,10 @@
 package com.example.siakad.ui.krs
 
+import com.example.siakad.ui.mahasiswa.Mahasiswa
+import com.example.siakad.ui.tahunAjaran.Tahun
+
 data class Krs(
-    val id_mahasiswa: Int,
-    val id_tahun_ajaran: Int,
+    val id: Int,
+    val mahasiswa: Mahasiswa,
+    val tahunAjaran: Tahun
 )
