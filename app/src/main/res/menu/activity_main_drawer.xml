@@ -17,5 +17,10 @@
             android:id="@+id/nav_krs"
             android:icon="@drawable/ic_menu_gallery"
             android:title="KRS" />
+
+        <item
+            android:id="@+id/nav_matakuliah"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Mata Kuliah" />
     </group>
 </menu>
