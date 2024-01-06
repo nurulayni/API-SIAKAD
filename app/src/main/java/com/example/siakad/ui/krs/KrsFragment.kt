@@ -1,5 +1,6 @@
 package com.example.siakad.ui.krs
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -70,7 +71,8 @@ class KrsFragment : Fragment() {
         recyclerView = root.findViewById(R.id.listKrs)
         adapter = KrsAdapter(krsList, object : KrsAdapter.OnItemClickListener{
             override fun click(krs: Krs) {
-
+                val  intent= Intent(context,DaftarKrs::class.java)
+                startActivity(intent)
             }
         })
         val layoutManager = LinearLayoutManager(this.context)

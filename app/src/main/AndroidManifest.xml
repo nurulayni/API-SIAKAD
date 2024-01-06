@@ -15,6 +15,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.krs.DaftarKrs"
+            android:exported="false" />
+        <activity
             android:name=".item_matakuliah"
             android:exported="false" />
         <activity
