@@ -25,6 +25,9 @@ class  MahasiswaAdapter(private var mahasiswaList: List<Mahasiswa>, private val 
         holder.namaMahasiswa.text = mahasiswa.nama
         holder.nim.text = mahasiswa.nim
         holder.namaJurusan.text = mahasiswa.jurusan.nama_jurusan
+        holder.itemView.setOnClickListener {
+            onItemClickListener.click(mahasiswa)
+        }
     }
 
     override fun getItemCount(): Int {

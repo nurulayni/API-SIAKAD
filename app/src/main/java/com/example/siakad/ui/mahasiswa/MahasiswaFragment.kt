@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -68,7 +69,7 @@ class MahasiswaFragment : Fragment() {
         recyclerView = root.findViewById(R.id.listMahasiswa)
         adapter = MahasiswaAdapter(mahasiswaList, object : MahasiswaAdapter.OnItemClickListener{
             override fun click(mahasiswa: Mahasiswa) {
-
+                Toast.makeText(context, "Hai", Toast.LENGTH_SHORT).show()
             }
         })
         val layoutManager = LinearLayoutManager(this.context)
