@@ -20,6 +20,7 @@ class KrsAdapter(private var krsList: List<Krs>, private val onItemClickListener
         val nim: TextView = itemView.findViewById(R.id.nim)
         val namaJurusan: TextView = itemView.findViewById(R.id.namaJurusan)
         val namaTahun: TextView = itemView.findViewById(R.id.namaTahun)
+
     }
 
     override fun onBindViewHolder(holder: KrsAdapter.ViewHolder, position: Int) {
@@ -28,6 +29,9 @@ class KrsAdapter(private var krsList: List<Krs>, private val onItemClickListener
         holder.nim.text = krs.mahasiswa.nim
         holder.namaJurusan.text = krs.mahasiswa.jurusan.nama_jurusan
         holder.namaTahun.text = krs.tahunAjaran.tahun.toString()
+        holder.itemView.setOnClickListener {
+            onItemClickListener.click(krs)
+        }
 
     }
 
