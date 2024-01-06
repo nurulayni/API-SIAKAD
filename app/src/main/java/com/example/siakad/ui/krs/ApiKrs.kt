@@ -8,4 +8,7 @@ import retrofit2.http.Query
 interface ApiKrs {
     @GET("krs")
     fun getKrs(@Query("page") page: Int): Call<KrsModel>
+
+    @GET("detail-krs")
+    fun getMatakuliahKrs(@Query("id_krs") id_krs: Int): Call<MatakuliahModel>
 }

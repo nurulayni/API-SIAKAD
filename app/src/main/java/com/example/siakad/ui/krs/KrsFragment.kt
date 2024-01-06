@@ -65,13 +65,13 @@ class KrsFragment : Fragment() {
         swipeRefreshLayout.setOnRefreshListener {
             page = 1
             krsList.clear()
-//            fetchData()
+            fetchData()
         }
-
         recyclerView = root.findViewById(R.id.listKrs)
         adapter = KrsAdapter(krsList, object : KrsAdapter.OnItemClickListener{
             override fun click(krs: Krs) {
                 val  intent= Intent(context,DaftarKrs::class.java)
+                intent.putExtra("id_krs", krs.id)
                 startActivity(intent)
             }
         })
