@@ -19,6 +19,11 @@
             android:exported="false"
             android:theme="@style/Theme.Siakad.NoActionBar" />
         <activity
+            android:name=".ui.krs.FormKrsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Siakad.NoActionBar"
+            />
+        <activity
             android:name=".ui.krs.DaftarKrs"
             android:exported="false"
             android:theme="@style/Theme.Siakad.NoActionBar" />
