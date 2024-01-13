@@ -23,52 +23,35 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layoutNim"
+        <AutoCompleteTextView
+            android:id="@+id/jurusan_drop_down"
             android:layout_width="match_parent"
+            android:layout_marginTop="150dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
-            android:hint="No. Induk Mahasiswa">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nim"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginRight="30dp"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layoutNama"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nama Mahasiswa">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nima"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="30dp"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:text=""
+            android:hint="Jurusan"/>
 
-        <Spinner
-            android:id="@+id/listNamaJurusan"
+        <AutoCompleteTextView
+            android:id="@+id/mahasiswa_drop_down"
             android:layout_width="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
-            android:layout_height="43dp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_marginLeft="30dp"
-            android:textColor="@color/red"
-            android:visibility="invisible"
-            android:layout_marginRight="30dp"
-            android:layout_width="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text=""
+            android:hint="Mahasiswa"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/tahunAjaranDrop"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:hint="Tahun Ajaran"/>
 
         <Button
             android:id="@+id/simpan"
