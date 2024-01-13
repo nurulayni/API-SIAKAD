@@ -19,4 +19,6 @@ interface ApiTahunAjar {
     fun updateTahunAjar(@Query("id") id: Int, @Body dataPost: Tahun): Call<ResponseBody>
     @DELETE("tahun-ajaran/delete")
     fun deleteTahunAjar(@Query("id") id: Int): Call<ResponseBody>
+    @GET("tahun-ajaran")
+    fun tahunAjaran(@Query("tahun") tahun: Int): Call<TahunModel>
 }
