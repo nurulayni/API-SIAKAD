@@ -1,5 +1,7 @@
 package com.example.siakad.ui.tahunAjaran
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,8 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.siakad.R
-import com.example.siakad.databinding.FragmentMatakuliahBinding
-import com.example.siakad.databinding.FragmentTahunAjarBinding
 import com.example.siakad.ui.Config
 import com.example.siakad.ui.matakuliah.ApiMatakuliah
 import com.example.siakad.ui.matakuliah.Matakuliah
@@ -34,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class TahunAjarFragment : Fragment() {
-    private var _binding: FragmentTahunAjarBinding? = null
+    private var _binding: com.example.siakad.databinding.FragmentTahunAjarBinding? = null
     private val binding get() = _binding!!
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
@@ -107,5 +107,16 @@ class TahunAjarFragment : Fragment() {
         tahunAjarList.clear()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 111) {
+            if (resultCode == Activity.RESULT_OK) {
+//                Toast.makeText(context, "Back", Toast.LENGTH_SHORT).show()
+                page = 1
+                tahunAjarList.clear()
+                fetchData()
+            }
+        }
+    }
 
 }
