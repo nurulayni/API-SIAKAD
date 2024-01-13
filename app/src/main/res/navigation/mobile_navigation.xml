@@ -31,5 +31,10 @@
         android:label="Mata Kuliah"
         tools:layout="@layout/fragment_matakuliah" />
 
+    <fragment
+        android:id="@+id/nav_tahunajar"
+        android:name="com.example.siakad.ui.tahunAjaran.TahunAjarFragment"
+        android:label="Tahun Ajar"
+        tools:layout="@layout/fragment_tahun_ajar" />
 
 </navigation>
