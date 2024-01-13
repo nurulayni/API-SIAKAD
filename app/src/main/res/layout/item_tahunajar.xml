@@ -5,5 +5,9 @@
     android:orientation="vertical"
     android:clickable="true"
     android:background="?android:attr/selectableItemBackground">
-    
+    <TextView
+        android:id="@+id/tahunajar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
 </LinearLayout>
