@@ -14,7 +14,7 @@ class TahunAjaranAdapter (private var tahunajarList: List<Tahun>, private val on
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // val namaMatakuliah: TextView = itemView.findViewById(R.id.tahunajar)
+        val namaMatakuliah: TextView = itemView.findViewById(R.id.tahunajar)
     }
 
     override fun onBindViewHolder(holder: TahunAjaranAdapter.ViewHolder, position: Int) {
