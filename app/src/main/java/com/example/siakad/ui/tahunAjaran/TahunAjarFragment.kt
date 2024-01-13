@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.siakad.R
 import com.example.siakad.ui.Config
+import com.example.siakad.ui.gallery.FormJurusan
 import com.example.siakad.ui.matakuliah.ApiMatakuliah
 import com.example.siakad.ui.matakuliah.Matakuliah
 import com.example.siakad.ui.matakuliah.MatakuliahAdapter
 import com.example.siakad.ui.matakuliah.MatakuliahModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -54,6 +56,12 @@ class TahunAjarFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentTahunAjarBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val fab: FloatingActionButton = root.findViewById(R.id.fab)
+        fab.setOnClickListener {
+            val intent = Intent(context, FormTahunAjar::class.java)
+            intent.putExtra("isNew", 1)
+            startActivityForResult(intent, 111)
+        }
         tahunAjarList.clear()
         swipeRefreshLayout = root.findViewById(R.id.refresh)
         swipeRefreshLayout.setOnRefreshListener {
