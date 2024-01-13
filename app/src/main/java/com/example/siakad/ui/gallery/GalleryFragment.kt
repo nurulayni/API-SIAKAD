@@ -109,6 +109,8 @@ class GalleryFragment : Fragment() {
             }
             override fun onFailure(call: Call<JurusanModel>, t: Throwable) {
                 t.printStackTrace()
+                isLoading = false
+                Toast.makeText(context, "Gagal Memuat data", Toast.LENGTH_SHORT).show()
             }
         })
     }

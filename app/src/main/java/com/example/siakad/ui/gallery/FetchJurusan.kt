@@ -21,4 +21,6 @@ interface FetchJurusan {
     fun deleteJurusan(@Query("id") id: Int): Call<ResponseBody>
     @GET("jurusans/all")
     fun semuaJurusan(): Call<JurusanModel>
+    @GET("jurusans")
+    fun jurusan(@Query("nama_jurusan") nama_jurusan: String): Call<JurusanModel>
 }
