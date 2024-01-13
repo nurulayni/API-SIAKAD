@@ -7,12 +7,11 @@ android:layout_height="match_parent"
 tools:context=".ui.tahunAjaran.FormTahunAjar">
 
 <androidx.appcompat.widget.Toolbar
-    android:id="@+id/toolbarFormMahasiswa"
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorPrimary"
     android:backgroundTint="#4F6F52"
-    android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme"
     tools:ignore="MissingConstraints" />
 
