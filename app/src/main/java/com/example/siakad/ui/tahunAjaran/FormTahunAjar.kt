@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import com.example.siakad.R
 import com.example.siakad.ui.Config
 import com.example.siakad.ui.gallery.DataPost
@@ -27,6 +28,10 @@ class FormTahunAjar : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_tahun_ajar)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        getSupportActionBar()?.setTitle("Form Tahun Ajar");
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val id = intent.getIntExtra("id", 0)
         val tahun = intent.getStringExtra("tahun")
         val semester = intent.getStringExtra("semester")
