@@ -100,6 +100,12 @@ class TahunAjarFragment : Fragment() {
             }
         })
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        page = 1
+        tahunAjarList.clear()
+    }
 
 
 }
