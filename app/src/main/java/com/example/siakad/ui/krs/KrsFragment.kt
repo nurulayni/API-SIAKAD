@@ -13,10 +13,12 @@ import com.example.siakad.R
 import com.example.siakad.databinding.FragmentKrsBinding
 import com.example.siakad.databinding.FragmentMahasiswaBinding
 import com.example.siakad.ui.Config
+import com.example.siakad.ui.gallery.FormJurusan
 import com.example.siakad.ui.mahasiswa.ApiMahasiswa
 import com.example.siakad.ui.mahasiswa.Mahasiswa
 import com.example.siakad.ui.mahasiswa.MahasiswaAdapter
 import com.example.siakad.ui.mahasiswa.MahasiswaModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,6 +62,12 @@ class KrsFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentKrsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val fab: FloatingActionButton = root.findViewById(R.id.fab)
+        fab.setOnClickListener {
+            val intent = Intent(context, FormKrsActivity::class.java)
+            intent.putExtra("isNew", 1)
+            startActivityForResult(intent, 111)
+        }
         krsList.clear()
         swipeRefreshLayout = root.findViewById(R.id.refresh)
         swipeRefreshLayout.setOnRefreshListener {
