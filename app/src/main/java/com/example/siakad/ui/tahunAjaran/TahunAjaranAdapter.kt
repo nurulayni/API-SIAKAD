@@ -24,6 +24,9 @@ class TahunAjaranAdapter (private var tahunajarList: List<Tahun>, private val on
         holder.tahun.text = tahunajar.tahun.toString()
         holder.status.text = tahunajar.status.toString()
         holder.semester.text = tahunajar.semester.toString()
+        holder.itemView.setOnClickListener {
+            onItemClickListener.click(tahunajar)
+        }
     }
 
     override fun getItemCount(): Int {
