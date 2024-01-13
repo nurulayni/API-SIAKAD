@@ -22,5 +22,10 @@
             android:id="@+id/nav_matakuliah"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Mata Kuliah" />
+
+        <item
+            android:id="@+id/nav_tahunajar"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Tahun Ajar" />
     </group>
 </menu>
