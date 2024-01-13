@@ -46,10 +46,6 @@ class KrsFragment : Fragment() {
     private var totalData = 0;
     private var isLoadMore = false;
     private var page = 1
-
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

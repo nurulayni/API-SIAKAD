@@ -1,10 +1,14 @@
 package com.example.siakad.ui.krs
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import com.example.siakad.R
 import com.example.siakad.ui.Config
 import com.example.siakad.ui.gallery.DropDownJurusanAdapter
@@ -20,6 +24,9 @@ import com.example.siakad.ui.tahunAjaran.ApiTahunAjar
 import com.example.siakad.ui.tahunAjaran.DropDownTahunAjaranAdapter
 import com.example.siakad.ui.tahunAjaran.Tahun
 import com.example.siakad.ui.tahunAjaran.TahunModel
+import okhttp3.ResponseBody
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,10 +51,12 @@ class FormKrsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_krs)
+        val errorMahasiswa:TextView = findViewById(R.id.errorMahasiswa)
+        val errorTa:TextView = findViewById(R.id.errorTa)
         mahasiswaDropDown = findViewById(R.id.mahasiswa_drop_down)
         dropDownJurusan = findViewById(R.id.jurusan_drop_down)
         mahasiswaDropDown.setOnItemClickListener { adapterView, view, i, l ->
-            mahasiswaDropDown.setText(mahasiswaList[i].nama)
+            mahasiswaDropDown.setText(mahasiswaList[i].nim +" - "+mahasiswaList[i].nama)
             idMahasiswa = mahasiswaList[i].id
         }
         mahasiswaDropDown.addTextChangedListener(object : TextWatcher {
@@ -83,9 +92,52 @@ class FormKrsActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
             override fun afterTextChanged(p0: Editable?) {
-                getTahunAjaran(p0.toString().toInt())
+                getTahunAjaran(p0.toString())
             }
         })
+        val simpan:Button = findViewById(R.id.simpan)
+        simpan.setOnClickListener {
+            val retrofit = Retrofit.Builder()
+                .baseUrl(Config.path)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val apiKrs = retrofit.create(ApiKrs::class.java)
+            val isNew = intent.getIntExtra("isNew", 1)
+            val id = intent.getIntExtra("id", 0)
+            val dataKrs = KrsPost(idMahasiswa, idTahunAjaran)
+            var call: Call<ResponseBody>? = null
+            if (isNew == 1) {
+                call = apiKrs.postKrs(dataKrs)
+            }
+            else {
+                call = apiKrs.updateKrs(id, dataKrs)
+            }
+            call.enqueue(object : Callback<ResponseBody> {
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    if (response.isSuccessful) {
+                        val intent = Intent()
+                        intent.putExtra("isReload", true)
+                        setResult(RESULT_OK, intent)
+                        finish()
+                    }
+                    else {
+                        val jsonArray = JSONArray(response.errorBody()!!.string())
+                        for (i in 0 until jsonArray.length()) {
+                            val jsonObject = JSONObject(jsonArray.getString(i).toString())
+                            if (jsonObject.getString("field") == "id_mahasiswa") {
+                                errorMahasiswa.setText(jsonObject.getString("message"))
+                            }
+                            if (jsonObject.getString("field") == "id_tahun_ajaran") {
+                                errorTa.setText(jsonObject.getString("message"))
+                            }
+                        }
+                    }
+                }
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
+        }
     }
 
     fun getJurusan(nama_jurusan: String) {
@@ -132,7 +184,7 @@ class FormKrsActivity : AppCompatActivity() {
             })
     }
 
-    fun getTahunAjaran(tahun: Int) {
+    fun getTahunAjaran(tahun: String) {
         val retRofitJurusan = Retrofit.Builder()
             .baseUrl(Config.path)
             .addConverterFactory(GsonConverterFactory.create())
