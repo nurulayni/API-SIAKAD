@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.siakad.R
+import com.example.siakad.databinding.FragmentTahunAjarBinding
 import com.example.siakad.ui.Config
 import com.example.siakad.ui.gallery.FormJurusan
 import com.example.siakad.ui.matakuliah.ApiMatakuliah
