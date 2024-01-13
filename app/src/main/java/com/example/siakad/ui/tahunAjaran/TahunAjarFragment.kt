@@ -75,9 +75,9 @@ class TahunAjarFragment : Fragment() {
             override fun click(tahunajar: Tahun) {
                 val intent = Intent(context, FormTahunAjar::class.java)
                 intent.putExtra("id", tahunajar.id)
-                intent.putExtra("tahun", tahunajar.tahun)
-                intent.putExtra("semester", tahunajar.semester)
-                intent.putExtra("status", tahunajar.status)
+                intent.putExtra("tahun", tahunajar.tahun.toString())
+                intent.putExtra("semester", tahunajar.semester.toString())
+                intent.putExtra("status", tahunajar.status.toString())
                 intent.putExtra("isNew", 0)
                 startActivityForResult(intent, 111)
             }

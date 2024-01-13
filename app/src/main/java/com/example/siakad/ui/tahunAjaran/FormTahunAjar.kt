@@ -39,7 +39,7 @@ class FormTahunAjar : AppCompatActivity() {
         val simpan = findViewById<Button>(R.id.simpan)
         val tahunInput = findViewById<EditText>(R.id.tahun)
         val semesterInput = findViewById<EditText>(R.id.semester)
-        val statusInput= findViewById<EditText>(R.id.tahun)
+        val statusInput= findViewById<EditText>(R.id.status)
         tahunInput.setText(tahun)
         semesterInput.setText(semester)
         statusInput.setText(status)
