@@ -22,8 +22,8 @@ class TahunAjaranAdapter (private var tahunajarList: List<Tahun>, private val on
     override fun onBindViewHolder(holder: TahunAjaranAdapter.ViewHolder, position: Int) {
         val tahunajar = tahunajarList[position]
         holder.tahun.text = tahunajar.tahun.toString()
-        holder.status.text = tahunajar.status
-        holder.semester.text = tahunajar.semester
+        holder.status.text = tahunajar.status.toString()
+        holder.semester.text = tahunajar.semester.toString()
     }
 
     override fun getItemCount(): Int {
