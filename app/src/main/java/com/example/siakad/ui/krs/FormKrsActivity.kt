@@ -227,4 +227,9 @@ class FormKrsActivity : AppCompatActivity() {
                 }
             })
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
 }

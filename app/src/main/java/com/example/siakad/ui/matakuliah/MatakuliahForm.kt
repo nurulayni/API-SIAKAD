@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
@@ -39,7 +40,15 @@ class MatakuliahForm : AppCompatActivity() {
         getSupportActionBar()?.setTitle("Form Matakuliah");
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val namaMatkkul:TextView = findViewById(R.id.textEditNamaMatkul)
+        autoCompleteJurusan = findViewById<AutoCompleteTextView>(R.id.dropDownJurusan)
         val simpan:Button = findViewById(R.id.simpan)
+        val isNew = intent.getIntExtra("isNew", 0)
+        if (isNew == 0) {
+            val data = intent.getSerializableExtra("matakuliah") as Matakuliah
+            namaMatkkul.setText(data.nama)
+            idJurusan = data.jurusan.id
+            autoCompleteJurusan.setText(data.jurusan.nama_jurusan)
+        }
         simpan.setOnClickListener {
             val dataPost = PostMatakuliah(namaMatkkul.text.toString(), idJurusan)
             val isNew = intent.getIntExtra("isNew", 1)
@@ -53,8 +62,8 @@ class MatakuliahForm : AppCompatActivity() {
                 call = apiMatakuliah.postMatakuliah(dataPost)
             }
             else {
-                val id = intent.getIntExtra("id", 0)
-                call = apiMatakuliah.updateMatakuliah(id, dataPost)
+                val data = intent.getSerializableExtra("matakuliah") as Matakuliah
+                call = apiMatakuliah.updateMatakuliah(data.id, dataPost)
             }
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
@@ -66,6 +75,10 @@ class MatakuliahForm : AppCompatActivity() {
                         intent.putExtra("isReload", true)
                         setResult(RESULT_OK, intent)
                         finish()
+                    }
+                    else {
+                        Log.d("Useless-dev", response.errorBody()!!.string())
+                        Toast.makeText(applicationContext, "ni", Toast.LENGTH_SHORT).show()
                     }
                 }
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -110,5 +123,10 @@ class MatakuliahForm : AppCompatActivity() {
                 override fun onFailure(call: Call<JurusanModel>, t: Throwable) {
                 }
             })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }

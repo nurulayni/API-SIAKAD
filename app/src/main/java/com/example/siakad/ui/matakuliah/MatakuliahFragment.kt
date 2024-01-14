@@ -13,14 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.siakad.R
-import com.example.siakad.databinding.FragmentMahasiswaBinding
 import com.example.siakad.databinding.FragmentMatakuliahBinding
 import com.example.siakad.ui.Config
-import com.example.siakad.ui.mahasiswa.ApiMahasiswa
-import com.example.siakad.ui.mahasiswa.FormMahasiswa
-import com.example.siakad.ui.mahasiswa.Mahasiswa
-import com.example.siakad.ui.mahasiswa.MahasiswaAdapter
-import com.example.siakad.ui.mahasiswa.MahasiswaModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
@@ -68,12 +62,15 @@ class MatakuliahFragment : Fragment() {
         fab.setOnClickListener {
             val intent = Intent(context, MatakuliahForm::class.java)
             intent.putExtra("isNew", 1)
-            startActivityForResult(intent, 121)
+            startActivityForResult(intent, 111)
         }
         recyclerView = root.findViewById(R.id.listMatakuliah)
         adapter = MatakuliahAdapter(matakuliahList, object : MatakuliahAdapter.OnItemClickListener{
             override fun click(matakuliah: Matakuliah) {
-
+                val intent = Intent(context, MatakuliahForm::class.java)
+                intent.putExtra("isNew", 0)
+                intent.putExtra("matakuliah", matakuliah)
+                startActivityForResult(intent, 111)
             }
         })
         val layoutManager = LinearLayoutManager(this.context)
@@ -85,6 +82,7 @@ class MatakuliahFragment : Fragment() {
     }
 
     fun fetchData() {
+        swipeRefreshLayout.isRefreshing = true
         isLoading = true
         val fecth = Retrofit.Builder()
             .baseUrl(Config.path)
@@ -96,7 +94,6 @@ class MatakuliahFragment : Fragment() {
             override fun onResponse(call: Call<MatakuliahModel>, response: Response<MatakuliahModel>) {
                 val metaData = response.body()?.items ?: emptyList()
                 totalData = response.body()?._meta?.totalCount!!
-                Log.d("Useless-Dev", totalData.toString())
                 swipeRefreshLayout.isRefreshing = false
                 matakuliahList.addAll(metaData)
                 adapter.notifyItemRangeInserted(adapter.itemCount, matakuliahList.size)
