@@ -11,7 +11,7 @@ import com.example.siakad.ui.mahasiswa.MahasiswaAdapter
 import com.example.siakad.ui.matakuliah.Matakuliah
 import com.example.siakad.ui.matakuliah.MatakuliahAdapter
 
-class MatakuliahAdapter(private var matakuliahList: List<Matakuliah>, private val onItemClickListener: MatakuliahAdapter.OnItemClickListener) : RecyclerView.Adapter<MatakuliahAdapter.ViewHolder>() {
+class MatakuliahAdapter(private var matakuliahList: List<Matakuliah>, private val onItemClickListener: OnItemClickListener) : RecyclerView.Adapter<MatakuliahAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatakuliahAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_matakuliah, parent, false)
         return ViewHolder(view)
@@ -24,6 +24,9 @@ class MatakuliahAdapter(private var matakuliahList: List<Matakuliah>, private va
     override fun onBindViewHolder(holder: MatakuliahAdapter.ViewHolder, position: Int) {
         val matakuliah = matakuliahList[position]
         holder.namaMatakuliah.text = matakuliah.nama
+        holder.itemView.setOnClickListener {
+            onItemClickListener.click(matakuliah)
+        }
     }
 
     override fun getItemCount(): Int {
