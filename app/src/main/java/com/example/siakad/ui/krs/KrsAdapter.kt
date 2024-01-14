@@ -29,7 +29,11 @@ class KrsAdapter(private var krsList: List<Krs>, private val onItemClickListener
         holder.namaMahasiswa.text = krs.mahasiswa.nama
         holder.nim.text = krs.mahasiswa.nim
         holder.namaJurusan.text = krs.mahasiswa.jurusan.nama_jurusan
-        holder.namaTahun.text = krs.tahunAjaran.tahun.toString()
+        var semester = "Ganjil"
+        if (krs.tahunAjaran.semester % 2 == 0) {
+            semester = "Genap"
+        }
+        holder.namaTahun.text = krs.tahunAjaran.tahun.toString() +" "+semester
         holder.itemView.setOnClickListener {
             onItemClickListener.click(krs)
         }
