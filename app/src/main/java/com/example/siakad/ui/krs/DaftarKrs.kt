@@ -1,9 +1,14 @@
 package com.example.siakad.ui.krs
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -28,11 +33,17 @@ class DaftarKrs : AppCompatActivity() {
     private var isLoadMore = false;
     private var page = 1
     private var id_krs = 0;
+    private lateinit var dataKrs: Krs
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daftar_krs)
+        val toolbar = findViewById<Toolbar>(R.id.toolbarDaftarKrs)
+        toolbar.setTitle("Daftar Matakuliah KRS")
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val intent = getIntent();
-        id_krs = intent.getIntExtra("id_krs", 0)
+        dataKrs = intent.getSerializableExtra("krs") as Krs
+        id_krs = dataKrs.id
         matakuliahList.clear()
         swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.refresh)
         swipeRefreshLayout.setOnRefreshListener {
@@ -79,6 +90,7 @@ class DaftarKrs : AppCompatActivity() {
         })
     }
     fun fetchData() {
+        swipeRefreshLayout.isRefreshing = true
         isLoading = true
         val fecth = Retrofit.Builder()
             .baseUrl(Config.path)
@@ -101,5 +113,34 @@ class DaftarKrs : AppCompatActivity() {
                 t.printStackTrace()
             }
         })
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.edit_hapus, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == R.id.action_edit) {
+            val intent = Intent(applicationContext, FormKrsActivity::class.java)
+            intent.putExtra("isNew", 0)
+            intent.putExtra("dataKrs", dataKrs)
+            startActivityForResult(intent, 111)
+        }
+        else if(id == R.id.action_delete) {
+            Toast.makeText(applicationContext, "Delete", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 111) {
+            if (resultCode == Activity.RESULT_OK) {
+                page = 1
+                matakuliahList.clear()
+                fetchData()
+            }
+        }
     }
 }
