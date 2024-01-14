@@ -11,5 +11,13 @@
         android:id="@+id/matakuliah"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:text=""/>
+    <TextView
+        android:id="@+id/textJurusan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:text=""/>
+
 </LinearLayout>

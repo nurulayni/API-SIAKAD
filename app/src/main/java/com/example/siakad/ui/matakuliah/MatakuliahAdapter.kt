@@ -19,11 +19,13 @@ class MatakuliahAdapter(private var matakuliahList: List<Matakuliah>, private va
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val namaMatakuliah: TextView = itemView.findViewById(R.id.matakuliah)
+        val namaJurusan: TextView = itemView.findViewById(R.id.textJurusan)
     }
 
     override fun onBindViewHolder(holder: MatakuliahAdapter.ViewHolder, position: Int) {
         val matakuliah = matakuliahList[position]
         holder.namaMatakuliah.text = matakuliah.nama
+        holder.namaJurusan.text = matakuliah.jurusan.nama_jurusan
         holder.itemView.setOnClickListener {
             onItemClickListener.click(matakuliah)
         }
