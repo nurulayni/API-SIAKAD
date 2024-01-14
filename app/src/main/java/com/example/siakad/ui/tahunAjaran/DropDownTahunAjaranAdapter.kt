@@ -28,7 +28,16 @@ class DropDownTahunAjaranAdapter(context: Context, resource: Int, private val ta
             .inflate(android.R.layout.simple_dropdown_item_1line, parent, false)
         val nama: TextView = view.findViewById(android.R.id.text1)
         val tahunAjaran = getItem(position)
-        nama.text = tahunAjaran?.tahun.toString()
+        var tulisan = ""
+        if (tahunAjaran != null) {
+            if (tahunAjaran.semester % 2 == 0) {
+                tulisan = "Genap"
+            }
+            else {
+                tulisan = "Ganjil"
+            }
+        }
+        nama.text = tahunAjaran?.tahun.toString() +" "+ tulisan
         return view
     }
     override fun getFilter(): Filter {
