@@ -1,5 +1,6 @@
 package com.example.siakad.ui.matakuliah
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -115,6 +116,17 @@ class MatakuliahFragment : Fragment() {
         _binding = null
         page = 1
         matakuliahList.clear()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 111) {
+            if (resultCode == Activity.RESULT_OK) {
+                page = 1
+                matakuliahList.clear()
+                fetchData()
+            }
+        }
     }
 
 
