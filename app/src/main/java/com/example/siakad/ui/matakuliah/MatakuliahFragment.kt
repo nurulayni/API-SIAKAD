@@ -63,11 +63,12 @@ class MatakuliahFragment : Fragment() {
             matakuliahList.clear()
             fetchData()
         }
-//        val fab: FloatingActionButton = root.findViewById(R.id.fab)
-//        fab.setOnClickListener {
-//            val intent = Intent(context, FormMahasiswa::class.java)
-//            startActivityForResult(intent, 121)
-//        }
+        val fab: FloatingActionButton = root.findViewById(R.id.fab)
+        fab.setOnClickListener {
+            val intent = Intent(context, MatakuliahForm::class.java)
+            intent.putExtra("isNew", 1)
+            startActivityForResult(intent, 121)
+        }
         recyclerView = root.findViewById(R.id.listMatakuliah)
         adapter = MatakuliahAdapter(matakuliahList, object : MatakuliahAdapter.OnItemClickListener{
             override fun click(matakuliah: Matakuliah) {
