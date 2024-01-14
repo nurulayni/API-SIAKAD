@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
@@ -39,6 +40,7 @@ class MatakuliahForm : AppCompatActivity() {
         setSupportActionBar(toolbar)
         getSupportActionBar()?.setTitle("Form Matakuliah");
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val namaMatkkul:TextView = findViewById(R.id.textEditNamaMatkul)
         autoCompleteJurusan = findViewById<AutoCompleteTextView>(R.id.dropDownJurusan)
         val simpan:Button = findViewById(R.id.simpan)
@@ -123,6 +125,14 @@ class MatakuliahForm : AppCompatActivity() {
                 override fun onFailure(call: Call<JurusanModel>, t: Throwable) {
                 }
             })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val isNew = intent.getIntExtra("isNew", 1)
+        if (isNew == 0) {
+            menuInflater.inflate(R.menu.menu_hapus_jurusan, menu)
+        }
+        return true
     }
 
     override fun onSupportNavigateUp(): Boolean {
