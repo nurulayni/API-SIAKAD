@@ -7,10 +7,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.example.siakad.R
 import com.example.siakad.ui.Config
@@ -79,7 +81,6 @@ class MatakuliahForm : AppCompatActivity() {
                         finish()
                     }
                     else {
-                        Log.d("Useless-dev", response.errorBody()!!.string())
                         Toast.makeText(applicationContext, "ni", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -133,6 +134,46 @@ class MatakuliahForm : AppCompatActivity() {
             menuInflater.inflate(R.menu.menu_hapus_jurusan, menu)
         }
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == R.id.action_delete) {
+            AlertDialog.Builder(this)
+                .setTitle("Perhatian!!")
+                .setMessage("Yakin hapus data ini?")
+                .setPositiveButton("OK") { _, _ ->
+                    val data = intent.getSerializableExtra("matakuliah") as Matakuliah
+                    val retrofit = Retrofit.Builder()
+                        .baseUrl(Config.path)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                    val apiMatakuliah = retrofit.create(ApiMatakuliah::class.java)
+                    var call: Call<ResponseBody>? = null
+                    call = apiMatakuliah.deleteMatakuliah(data.id)
+                    call.enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            if (response.isSuccessful) {
+                                val intent = Intent()
+                                intent.putExtra("isReload", true)
+                                setResult(RESULT_OK, intent)
+                                finish()
+                            }
+                        }
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Toast.makeText(applicationContext, "Terjadi kesalah", Toast.LENGTH_SHORT).show()
+                            t.printStackTrace()
+                        }
+
+                    })
+                }
+                .setNegativeButton("Cancel") { _, _ ->
+                    // Do something when the user clicks Cancel
+                }
+                .show()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onSupportNavigateUp(): Boolean {
