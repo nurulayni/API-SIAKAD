@@ -22,5 +22,12 @@ interface ApiKrs {
     fun getMatakuliahKrs(@Query("id_krs") id_krs: Int): Call<MatakuliahModel>
     @DELETE("krs/delete")
     fun deleteKrs(@Query("id") id: Int): Call<ResponseBody>
+    @DELETE("detail-krs/delete")
     fun deleteMatakuliahKrs(@Query("id") id: Int): Call<ResponseBody>
+
+    @POST("krs/simpan-matakuliah")
+    fun simpanMatakuliah(@Body dataPost: DataMkPost): Call<ResponseBody>
+    @PUT("krs/update-matakuliah")
+    fun updateMatakuliah(@Query("id") id: Int, dataPost: DataMkPost): Call<ResponseBody>
+
 }

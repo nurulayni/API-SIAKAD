@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.siakad.R
 import com.example.siakad.ui.Config
 import com.example.siakad.ui.gallery.FetchJurusan
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -54,15 +56,7 @@ class DaftarKrs : AppCompatActivity() {
         recyclerView = findViewById<RecyclerView>(R.id.listMatakuliahKrs)
         adapter = MatakuliahAdapter(matakuliahList, object : MatakuliahAdapter.OnItemClickListener{
             override fun click(matakuliah: Matakuliah) {
-                AlertDialog.Builder(applicationContext)
-                    .setTitle("Perhatian!!")
-                    .setMessage("Yakin hapus "+matakuliah.matakuliah.nama+" ?")
-                    .setPositiveButton("Ok") {_, _ ->
-                        deleteMatakuliah(matakuliah)
-                    }
-                    .setNegativeButton("Cancel") {_, _ ->
-
-                    }.show()
+                deleteMatakuliah(matakuliah)
             }
         })
         val layoutManager = LinearLayoutManager(applicationContext)
@@ -70,24 +64,42 @@ class DaftarKrs : AppCompatActivity() {
         recyclerView.adapter = adapter
         swipeRefreshLayout.isRefreshing = true
         fetchData()
+        val fab: FloatingActionButton = findViewById(R.id.tambah_matakuliah)
+        fab.setOnClickListener {
+            val intent = Intent(applicationContext, FormMatakuliah::class.java)
+            intent.putExtra("isNew", 1)
+            intent.putExtra("dataKrs", dataKrs)
+            startActivityForResult(intent, 111)
+        }
     }
-    fun deleteMatakuliah(matakuliah: Matakuliah) {
-        val retrofi = Retrofit.Builder()
-            .baseUrl(Config.path)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        var apiKrs: ApiKrs
-        apiKrs = retrofi.create(ApiKrs::class.java)
-        var call: Call<ResponseBody>? = null
-        call = apiKrs.deleteMatakuliahKrs(matakuliah.matakuliah.id)
-        call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                fetchData()
-            }
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 
+    fun deleteMatakuliah(matakuliah: Matakuliah) {
+        AlertDialog.Builder(this)
+            .setTitle("Perhatian!!")
+            .setMessage("Yakin hapus data ini?")
+            .setPositiveButton("OK") { _, _ ->
+                val retrofi = Retrofit.Builder()
+                    .baseUrl(Config.path)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                var apiKrs: ApiKrs
+                apiKrs = retrofi.create(ApiKrs::class.java)
+                var call: Call<ResponseBody>? = null
+                call = apiKrs.deleteMatakuliahKrs(matakuliah.id)
+                call.enqueue(object : Callback<ResponseBody> {
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        page = 1
+                        matakuliahList.clear()
+                        fetchData()
+                    }
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+
+                    }
+                })
             }
-        })
+            .setNegativeButton("Cancel") { _, _ ->
+            }
+            .show()
     }
     fun fetchData() {
         swipeRefreshLayout.isRefreshing = true
@@ -173,5 +185,10 @@ class DaftarKrs : AppCompatActivity() {
                 fetchData()
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }

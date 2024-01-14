@@ -15,14 +15,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.krs.FormMatakuliah"
+            android:exported="false"
+            android:theme="@style/Theme.Siakad.NoActionBar"/>
+        <activity
             android:name=".ui.tahunAjaran.FormTahunAjar"
             android:exported="false"
             android:theme="@style/Theme.Siakad.NoActionBar" />
         <activity
             android:name=".ui.krs.FormKrsActivity"
             android:exported="false"
-            android:theme="@style/Theme.Siakad.NoActionBar"
-            />
+            android:theme="@style/Theme.Siakad.NoActionBar" />
         <activity
             android:name=".ui.krs.DaftarKrs"
             android:exported="false"

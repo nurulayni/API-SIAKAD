@@ -11,8 +11,7 @@ import android.widget.Filter
 import android.widget.TextView
 import com.example.siakad.ui.gallery.Jurusan
 
-class TestingAdapter(context: Context, resource: Int, private val listJurusan: List<Jurusan>) :
-    ArrayAdapter<Jurusan>(context, resource, listJurusan) {
+class TestingAdapter(context: Context, resource: Int, private val listJurusan: List<Jurusan>) : ArrayAdapter<Jurusan>(context, resource, listJurusan) {
         private val filteredJurusanList = mutableListOf<Jurusan>()
 
         init {

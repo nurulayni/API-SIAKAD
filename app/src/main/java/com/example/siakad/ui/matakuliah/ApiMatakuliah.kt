@@ -8,4 +8,6 @@ import retrofit2.http.Query
 interface ApiMatakuliah {
     @GET("matakuliah")
     fun getMatakuliah(@Query("page") page: Int): Call<MatakuliahModel>
+    @GET("matakuliah")
+    fun getListMatakuliah(@Query("id_jurusan") id_jurusan: Int, @Query("nama") nama: String): Call<MatakuliahModel>
 }
