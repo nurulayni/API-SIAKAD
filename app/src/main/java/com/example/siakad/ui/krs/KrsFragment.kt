@@ -1,5 +1,6 @@
 package com.example.siakad.ui.krs
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -77,7 +78,7 @@ class KrsFragment : Fragment() {
                 val  intent= Intent(context,DaftarKrs::class.java)
                 intent.putExtra("id_krs", krs.id)
                 intent.putExtra("krs", krs)
-                startActivity(intent)
+                startActivityForResult(intent, 111)
             }
         })
         val layoutManager = LinearLayoutManager(this.context)
@@ -90,6 +91,7 @@ class KrsFragment : Fragment() {
     }
 
     fun fetchData() {
+        swipeRefreshLayout.isRefreshing = true
         isLoading = true
         val fecth = Retrofit.Builder()
             .baseUrl(Config.path)
@@ -112,6 +114,17 @@ class KrsFragment : Fragment() {
                 t.printStackTrace()
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 111) {
+            if (resultCode == Activity.RESULT_OK) {
+                page = 1
+                krsList.clear()
+                fetchData()
+            }
+        }
     }
 
 }

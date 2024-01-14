@@ -128,7 +128,38 @@ class DaftarKrs : AppCompatActivity() {
             startActivityForResult(intent, 111)
         }
         else if(id == R.id.action_delete) {
-            Toast.makeText(applicationContext, "Delete", Toast.LENGTH_SHORT).show()
+            AlertDialog.Builder(this)
+                .setTitle("Perhatian!!")
+                .setMessage("Yakin hapus data ini?")
+                .setPositiveButton("OK") { _, _ ->
+                    val id = dataKrs.id
+                    val retrofit = Retrofit.Builder()
+                        .baseUrl(Config.path)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                    val apiKrs = retrofit.create(ApiKrs::class.java)
+                    var call: Call<ResponseBody>? = null
+                    call = apiKrs.deleteKrs(id)
+                    call.enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            if (response.isSuccessful) {
+                                val intent = Intent()
+                                intent.putExtra("isReload", true)
+                                setResult(RESULT_OK, intent)
+                                finish()
+                            }
+                        }
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Toast.makeText(applicationContext, "Terjadi kesalah", Toast.LENGTH_SHORT).show()
+                            t.printStackTrace()
+                        }
+
+                    })
+                }
+                .setNegativeButton("Cancel") { _, _ ->
+                    // Do something when the user clicks Cancel
+                }
+                .show()
         }
         return super.onOptionsItemSelected(item)
     }
