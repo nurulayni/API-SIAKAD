@@ -1,4 +1,5 @@
 package com.example.siakad.ui.krs
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class FormKrsActivity : AppCompatActivity() {
     private lateinit var mahasiswaDropDown: AutoCompleteTextView
-    private lateinit var tahunAjaran: AutoCompleteTextView
+    private lateinit var dropDowntahunAjaran: AutoCompleteTextView
     private lateinit var dropDownJurusan: AutoCompleteTextView
     private var mahasiswaList = mutableListOf<Mahasiswa>()
     private var jurusanList = mutableListOf<Jurusan>()
@@ -47,14 +48,18 @@ class FormKrsActivity : AppCompatActivity() {
     private var idMahasiswa = 0
     private var idJurusan = 0
     private var idTahunAjaran = 0;
+    private lateinit var dataKrs: Krs
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_krs)
+
         val errorMahasiswa:TextView = findViewById(R.id.errorMahasiswa)
         val errorTa:TextView = findViewById(R.id.errorTa)
         mahasiswaDropDown = findViewById(R.id.mahasiswa_drop_down)
         dropDownJurusan = findViewById(R.id.jurusan_drop_down)
+        dropDowntahunAjaran = findViewById(R.id.tahun_ajaran_dropdown)
         mahasiswaDropDown.setOnItemClickListener { adapterView, view, i, l ->
             mahasiswaDropDown.setText(mahasiswaList[i].nim +" - "+mahasiswaList[i].nama)
             idMahasiswa = mahasiswaList[i].id
@@ -81,12 +86,15 @@ class FormKrsActivity : AppCompatActivity() {
                 getJurusan(p0.toString())
             }
         })
-        tahunAjaran = findViewById(R.id.tahunAjaranDrop)
-        tahunAjaran.setOnItemClickListener { adapterView, view, i, l ->
-            tahunAjaran.setText(taList[i].tahun.toString())
+        dropDowntahunAjaran.setOnItemClickListener { adapterView, view, i, l ->
+            var tulisan = "Ganjil"
+            if (taList[i].semester % 2 == 0) {
+                tulisan = "Genap"
+            }
+            dropDowntahunAjaran.setText(taList[i].tahun.toString() +" "+tulisan)
             idTahunAjaran = taList[i].id
         }
-        tahunAjaran.addTextChangedListener(object : TextWatcher {
+        dropDowntahunAjaran.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -95,6 +103,20 @@ class FormKrsActivity : AppCompatActivity() {
                 getTahunAjaran(p0.toString())
             }
         })
+        val isNew = intent.getIntExtra("isNew", 1)
+        if (isNew == 0) {
+            dataKrs = intent.getSerializableExtra("dataKrs") as Krs
+            idMahasiswa = dataKrs.mahasiswa.id
+            idJurusan = dataKrs.mahasiswa.jurusan.id
+            idTahunAjaran = dataKrs.tahunAjaran.id
+            mahasiswaDropDown.setText(dataKrs.mahasiswa.nim+" "+dataKrs.mahasiswa.nama)
+            var tulisan = "Ganjil"
+            if (dataKrs.tahunAjaran.semester % 2 == 0) {
+                tulisan = "Genap"
+            }
+            dropDowntahunAjaran.setText(dataKrs.tahunAjaran.tahun.toString()+" "+tulisan)
+            dropDownJurusan.setText(dataKrs.mahasiswa.jurusan.nama_jurusan)
+        }
         val simpan:Button = findViewById(R.id.simpan)
         simpan.setOnClickListener {
             val retrofit = Retrofit.Builder()
@@ -103,14 +125,14 @@ class FormKrsActivity : AppCompatActivity() {
                 .build()
             val apiKrs = retrofit.create(ApiKrs::class.java)
             val isNew = intent.getIntExtra("isNew", 1)
-            val id = intent.getIntExtra("id", 0)
-            val dataKrs = KrsPost(idMahasiswa, idTahunAjaran)
+            val dataKrsPost = KrsPost(idMahasiswa, idTahunAjaran)
             var call: Call<ResponseBody>? = null
             if (isNew == 1) {
-                call = apiKrs.postKrs(dataKrs)
+                call = apiKrs.postKrs(dataKrsPost)
             }
             else {
-                call = apiKrs.updateKrs(id, dataKrs)
+                val id = dataKrs.id
+                call = apiKrs.updateKrs(id, dataKrsPost)
             }
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -197,8 +219,8 @@ class FormKrsActivity : AppCompatActivity() {
                     taList.clear()
                     taList.addAll(list)
                     tahunAjaranDropDownAdapter = DropDownTahunAjaranAdapter(applicationContext, android.R.layout.simple_dropdown_item_1line, taList)
-                    tahunAjaran.setThreshold(1)
-                    tahunAjaran.setAdapter(tahunAjaranDropDownAdapter)
+                    dropDowntahunAjaran.setThreshold(1)
+                    dropDowntahunAjaran.setAdapter(tahunAjaranDropDownAdapter)
                     tahunAjaranDropDownAdapter.notifyDataSetChanged()
                 }
                 override fun onFailure(call: Call<TahunModel>, t: Throwable) {
