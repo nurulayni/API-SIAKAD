@@ -76,6 +76,7 @@ class KrsFragment : Fragment() {
             override fun click(krs: Krs) {
                 val  intent= Intent(context,DaftarKrs::class.java)
                 intent.putExtra("id_krs", krs.id)
+                intent.putExtra("krs", krs)
                 startActivity(intent)
             }
         })
