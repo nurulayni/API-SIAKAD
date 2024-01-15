@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +23,7 @@ import com.example.siakad.ui.Config
 import com.example.siakad.ui.gallery.FetchJurusan
 import com.example.siakad.ui.gallery.Jurusan
 import com.example.siakad.ui.gallery.JurusanModel
+import com.example.siakad.ui.tahunAjaran.ApiTahunAjar
 import com.google.android.material.textfield.TextInputEditText
 import okhttp3.ResponseBody
 import org.json.JSONArray
@@ -149,5 +153,53 @@ class FormMahasiswa : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val isNew = intent.getIntExtra("isNew", 1)
+        if (isNew == 0) {
+            menuInflater.inflate(R.menu.menu_hapus_jurusan, menu)
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == R.id.action_delete) {
+            AlertDialog.Builder(this)
+                .setTitle("Perhatian!!")
+                .setMessage("Yakin hapus data ini?")
+                .setPositiveButton("OK") { _, _ ->
+                    val dataMahasiswa = intent.getSerializableExtra("dataMahasiswa") as Mahasiswa
+                    val retrofit = Retrofit.Builder()
+                        .baseUrl(Config.path)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+                    apiMahasiswa = retrofit.create(ApiMahasiswa::class.java)
+                    var call: Call<ResponseBody>? = null
+                    call = apiMahasiswa.deleteMahasiswa(dataMahasiswa.id)
+                    call.enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            if (response.isSuccessful) {
+                                val intent = Intent()
+                                intent.putExtra("isReload", true)
+                                setResult(RESULT_OK, intent)
+                                finish()
+                            }
+                        }
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                            Toast.makeText(applicationContext, "Terjadi kesalah", Toast.LENGTH_SHORT).show()
+                            t.printStackTrace()
+                        }
+
+                    })
+                }
+                .setNegativeButton("Cancel") { _, _ ->
+                    // Do something when the user clicks Cancel
+                }
+                .show()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
