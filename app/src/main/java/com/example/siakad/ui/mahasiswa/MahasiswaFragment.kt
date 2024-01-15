@@ -70,7 +70,10 @@ class MahasiswaFragment : Fragment() {
         recyclerView = root.findViewById(R.id.listMahasiswa)
         adapter = MahasiswaAdapter(mahasiswaList, object : MahasiswaAdapter.OnItemClickListener{
             override fun click(mahasiswa: Mahasiswa) {
-                Toast.makeText(context, "Hai", Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, FormMahasiswa::class.java)
+                intent.putExtra("isNew", 0)
+                intent.putExtra("dataMahasiswa", mahasiswa)
+                startActivityForResult(intent, 111)
             }
         })
         val layoutManager = LinearLayoutManager(this.context)
