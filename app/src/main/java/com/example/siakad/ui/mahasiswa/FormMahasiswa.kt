@@ -50,9 +50,15 @@ class FormMahasiswa : AppCompatActivity() {
         jurusan = findViewById(R.id.jurusan)
         textInputNama = findViewById(R.id.nama)
         textInputNim = findViewById(R.id.nim)
+        val isNew = intent.getIntExtra("isNew", 0)
+        if (isNew == 0) {
+            val dataMahasiswa = intent.getSerializableExtra("dataMahasiswa") as Mahasiswa
+            idJurusan = dataMahasiswa.jurusan.id
+            textInputNama.setText(dataMahasiswa.nama)
+            textInputNim.setText(dataMahasiswa.nim)
+        }
         val simpan:Button = findViewById(R.id.simpan)
         simpan.setOnClickListener {
-            val isNew = intent.getIntExtra("isNew", 1)
             val retrofit = Retrofit.Builder()
                 .baseUrl(Config.path)
                 .addConverterFactory(GsonConverterFactory.create())
