@@ -17,7 +17,7 @@ interface ApiMahasiswa {
     @POST("mahasiswas")
     fun postMahasiswa(@Body dataPost: PostMahasiswa): Call<ResponseBody>
     @PUT("mahasiswa/update")
-    fun updateMahasiswa(@Query("id") id: Int, dataPost: PostMahasiswa): Call<ResponseBody>
+    fun updateMahasiswa(@Query("id") id: Int, @Body dataPost: PostMahasiswa): Call<ResponseBody>
     @DELETE("mahasiswa/delete")
     fun deleteMahasiswa(@Query("id") id: Int): Call<ResponseBody>
 
