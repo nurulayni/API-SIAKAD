@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:hint="Nama Mahasiswa">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nima"
+                android:id="@+id/nama"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -63,14 +63,13 @@
             android:hint="Jurusan"/>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/errorJurusan"
             android:layout_marginLeft="30dp"
             android:textColor="@color/red"
-            android:visibility="invisible"
             android:layout_marginRight="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="" />
 
         <Button
             android:id="@+id/simpan"
