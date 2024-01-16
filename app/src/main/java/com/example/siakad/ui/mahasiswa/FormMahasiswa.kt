@@ -54,7 +54,7 @@ class FormMahasiswa : AppCompatActivity() {
         jurusan = findViewById(R.id.jurusan)
         textInputNama = findViewById(R.id.nama)
         textInputNim = findViewById(R.id.nim)
-        val isNew = intent.getIntExtra("isNew", 0)
+        val isNew = intent.getIntExtra("isNew", 1)
         if (isNew == 0) {
             val dataMahasiswa = intent.getSerializableExtra("dataMahasiswa") as Mahasiswa
             idJurusan = dataMahasiswa.jurusan.id
