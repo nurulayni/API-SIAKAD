@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Nama Matakuliah"
             android:layout_marginTop="30dp"
             android:inputType="text"
             android:text="" />
@@ -51,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
+            android:hint="Nama Jurusan"
             android:text="" />
 
         <TextView
